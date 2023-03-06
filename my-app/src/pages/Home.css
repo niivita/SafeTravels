@@ -1,0 +1,11 @@
+.column {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(79deg, #e6edf7, #bed2ed 50%, #ebf6ff);
+  
+  }
+  

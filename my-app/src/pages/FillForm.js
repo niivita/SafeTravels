@@ -3,16 +3,36 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import axios from 'axios'
 
 function FillForm() {
   const [date, setDate] = useState(new Date());
   const [direction, setDir] = useState(false); // true = outgoing, false = incoming
   const [international, setInter] = useState(false); // true = international, false = domestic
-
+  //var sqllite_date = date.toISOString();
+  let loginForm = document.getElementById("tripform");
+  if(loginForm){
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log("form filled out")
+    axios
+    .post('http://localhost:4001/flights/create', {
+      flighttime: '2021-02-15 9:55:12',
+      direction: direction,
+      international: international
+    })
+    .catch(error => console.error(`There was an error creating the ${date} book: ${error}`))
+  });
+}
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("form filled out")
+    
     // save data to database here
+
   }
+
+
 
   const handleDirChange = (e) => {
     setDir(e.target.value)
@@ -24,7 +44,7 @@ function FillForm() {
 
   return (
     <div className="auth-form-container">
-            <form className="travelPlanForm" onSubmit={handleSubmit}>
+            <form action="" id="tripform">
                 <label htmlFor="date">Date of Flight</label>
                 <DatePicker selected={date} onChange={(e) => setDate(e)} showTimeSelect timeIntervals={1} dateFormat="MMMM d, yyyy h:mmaa"/>
 

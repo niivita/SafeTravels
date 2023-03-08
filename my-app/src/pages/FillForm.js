@@ -3,15 +3,33 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import axios from 'axios'
+import { addDays } from 'date-fns';
 
 function FillForm() {
-  const [date, setDate] = useState(new Date());
-  const [direction, setDir] = useState(false); // true = outgoing, false = incoming
-  const [international, setInter] = useState(false); // true = international, false = domestic
+  const [date, setDate] = useState(addDays(new Date(), 2));
+  const [direction, setDir] = useState(false);              // true = outgoing, false = incoming
+  const [international, setInter] = useState(false);        // true = international, false = domestic
 
-  const handleSubmit = (e) => {
+  const saveData = async (e) => {
+    console.log("submit clicked")
     e.preventDefault();
-    // save data to database here
+    if (date && direction && international){
+      console.log(date)
+      console.log(direction)
+      console.log(international)
+    }
+    try {
+      const response = await axios.post('http://localhost:4001/flights/create', {
+        // Data to be sent to the server
+      flighttime: date,
+      direction: direction,
+      international: international
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleDirChange = (e) => {
@@ -24,9 +42,9 @@ function FillForm() {
 
   return (
     <div className="auth-form-container">
-            <form className="travelPlanForm" onSubmit={handleSubmit}>
+            <form action="" id="tripform">
                 <label htmlFor="date">Date of Flight</label>
-                <DatePicker selected={date} onChange={(e) => setDate(e)} showTimeSelect timeIntervals={1} dateFormat="MMMM d, yyyy h:mmaa"/>
+                <DatePicker minDate={addDays(new Date(), 2)} selected={date} onChange={(e) => setDate(e)} showTimeSelect timeIntervals={1} dateFormat="MMMM d, yyyy h:mmaa"/>
 
                 <label htmlFor="direction">Outgoing or Incoming?</label>
                 <div className="radioButtons1">
@@ -60,7 +78,7 @@ function FillForm() {
                     </div>
                 </div>
                 <button>
-                    <label type="submit">Submit</label>
+                    <label type="enter" onClick={saveData}>Submit</label>
                 </button>
             </form>
         </div>

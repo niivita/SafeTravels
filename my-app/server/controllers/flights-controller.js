@@ -1,12 +1,14 @@
 
-const knex = require('./../db')
-// const knex = require('knex')({
-//   client: 'sqlite3',
-//   connection: {
-//     filename: './../db/csds393.db',
-//   },
-//   useNullAsDefault: true
-// })
+
+const knex = require('knex')({
+  client: 'sqlite3',
+  connection: {
+    filename: '../server/db/csds393.db',
+  },
+  useNullAsDefault: true
+})
+
+
 
 // Retrieve all books
 exports.flightsAll = async (req, res) => {
@@ -20,7 +22,7 @@ exports.flightsAll = async (req, res) => {
     })
     .catch(err => {
       // Send a error message in response
-      res.json({ message: `There was an error retrieving books: ${err}` })
+      res.json({ message: `There was an error retrieving flights: ${err}` })
     })
 }
 
@@ -29,7 +31,7 @@ exports.flightsAll = async (req, res) => {
 exports.flightCreate = async (req, res) => {
     // Add new book to database
     knex('flight')
-      .insert({ // insert new record, a book
+      .insert({ // insert new record, a flight
         'trip_id': req.body.trip_id,
         'flighttime': req.body.flighttime,
         'direction': req.body.direction,

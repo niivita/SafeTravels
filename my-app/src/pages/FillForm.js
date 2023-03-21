@@ -11,9 +11,13 @@ function FillForm() {
   const [direction, setDir] = useState(false);              // true = outgoing, false = incoming
   const [international, setInter] = useState(false);        // true = international, false = domestic
 
+
   const saveData = async (e) => {
     console.log("submit clicked")
     e.preventDefault();
+    var currUser = window.localStorage.getItem("currUser");
+    //console.log(currUser);
+
     if (date && direction && international){
       console.log(date)
       console.log(direction)
@@ -22,6 +26,7 @@ function FillForm() {
     try {
       const response = await axios.post('http://localhost:4001/flights/create', {
         // Data to be sent to the server
+      email: currUser,
       flighttime: date,
       direction: direction,
       international: international

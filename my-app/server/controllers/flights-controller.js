@@ -8,8 +8,6 @@ const knex = require('knex')({
   useNullAsDefault: true
 })
 
-
-
 // Retrieve all books
 exports.flightsAll = async (req, res) => {
   // Get all books from database
@@ -32,7 +30,8 @@ exports.flightCreate = async (req, res) => {
     // Add new book to database
     knex('flight')
       .insert({ // insert new record, a flight
-        'trip_id': req.body.trip_id,
+        //'trip_id': req.body.trip_id,
+        'email': req.body.email,
         'flighttime': req.body.flighttime,
         'direction': req.body.direction,
         'international': req.body.international,
@@ -40,10 +39,10 @@ exports.flightCreate = async (req, res) => {
       })
       .then(() => {
         // Send a success message in response
-        res.json({ message: `Book \'${req.body.trip_id}\' by ${req.body.flighttime} created.` })
+        res.json({ message: `Flight \'${req.body.trip_id}\' by ${req.body.email} created.` })
       })
       .catch(err => {
         // Send a error message in response
-        res.json({ message: `There was an error creating ${req.body.trip_id} book: ${err}` })
+        res.json({ message: `There was an error creating ${req.body.eamil} flight: ${err}` })
       })
   }

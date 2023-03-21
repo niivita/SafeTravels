@@ -9,6 +9,7 @@ const helmet = require('helmet')
 
 // Import routes
 const flightRouter = require('./routes/flight-route')
+const loginRouter = require('./routes/login-route')
 
 // Set default port for express app
 const PORT = process.env.PORT || 4001
@@ -26,6 +27,7 @@ app.use(bodyParser.json())
 
 // Implement books route
 app.use('/flights', flightRouter)
+app.use('/login', loginRouter)
 
 // Implement 500 error route
 app.use(function (err, req, res, next) {

@@ -24,6 +24,23 @@ exports.flightsAll = async (req, res) => {
     })
 }
 
+exports.flightsPersonal = async (req, res) => {
+  // Get all books from database
+  knex
+    .select('*') // select all records
+    .from('flight') // from 'books' table
+    .where('email', 'efg29@case.edu')
+    .then(userData => {
+      // Send books extracted from database in response
+      console.log(userData)
+      res.json(userData)
+    })
+    .catch(err => {
+      // Send a error message in response
+      res.json({ message: `There was an error retrieving flights: ${err}` })
+    })
+}
+
 
 // Create new book
 exports.flightCreate = async (req, res) => {
@@ -43,6 +60,6 @@ exports.flightCreate = async (req, res) => {
       })
       .catch(err => {
         // Send a error message in response
-        res.json({ message: `There was an error creating ${req.body.eamil} flight: ${err}` })
+        res.json({ message: `There was an error creating ${req.body.email} flight: ${err}` })
       })
   }

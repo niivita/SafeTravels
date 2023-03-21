@@ -1,12 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from 'axios'
+import React, { useState } from "react";
 
 function Profile () {
     const { user, isAuthenticated } = useAuth0();
-
-    if (isAuthenticated){
-        window.localStorage.setItem("currUser", user.email);
-    }
+    let [listOfItems, setListOfItems] = useState([]);
 
     const createAccount = async (e) => {
         if (user.email && user.name){
@@ -25,13 +23,46 @@ function Profile () {
         }
     }
 
-    window.onload = createAccount();
+    const axiosTest = async () => {
+        axios
+            .get("http://localhost:4001/flights/personal", {
+                responseType: "json",
+            })
+            .then(function (response) {
+                //console.log(response.data.length);
+                for (let i = 0; i < response.data.length; i++){
+                    let flighti = [];
+                    flighti.push(response.data[i].trip_id);
+                    flighti.push(response.data[i].flighttime);
+                    flighti.push(response.data[i].direction);
+                    flighti.push(response.data[i].international);
+                    flighti.push(response.data[i].comments)
+                    //console.log(flighti);
+                    listOfItems.push(flighti);
+                    setListOfItems(listOfItems);
+                }
+                return response.data;
+            });
+    }
+
+    if (isAuthenticated){
+        window.localStorage.setItem("currUser", user.email);
+    }
+
+    //window.onload = createAccount();
 
     return (
         isAuthenticated && (
             <article className="column">
                 <h2>User: {user.name}</h2>
                 <h2>Email: {user.email}</h2>
+                <script type="text/javascript">
+                    createAccount();
+                    axiosTest();
+                </script>
+                <div>
+                    Flights: {listOfItems}
+                </div>
                 <img src={user.picture}/>
             </article>
         )

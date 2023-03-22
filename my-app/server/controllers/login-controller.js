@@ -1,4 +1,4 @@
-
+let loggedIn = "";
 
 const knex = require('knex')({
     client: 'sqlite3',
@@ -17,6 +17,7 @@ const knex = require('knex')({
       .then(() => {
         // Send a success message in response
         res.json({ message: `Login \'${req.body.email}\' by ${req.body.name} created.` })
+        loggedIn = req.body.email;
       })
       .catch(err => {
         // Send a error message in response

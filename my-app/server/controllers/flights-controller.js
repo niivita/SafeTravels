@@ -1,4 +1,4 @@
-
+let loggedIn = "";
 
 const knex = require('knex')({
   client: 'sqlite3',
@@ -8,12 +8,12 @@ const knex = require('knex')({
   useNullAsDefault: true
 })
 
-// Retrieve all books
+// Retrieve all flights
 exports.flightsAll = async (req, res) => {
-  // Get all books from database
+  // Get all flights from database
   knex
     .select('*') // select all records
-    .from('flight') // from 'books' table
+    .from('flight') // from 'flight' table
     .then(userData => {
       // Send books extracted from database in response
       res.json(userData)
@@ -24,14 +24,19 @@ exports.flightsAll = async (req, res) => {
     })
 }
 
+// saving logged in users email to backend for use in sql queries 
+exports.flightsRecieveEmail = async (req, res) => {
+  loggedIn = req.body.email;
+}
+
 exports.flightsPersonal = async (req, res) => {
-  // Get all books from database
+  // Get flights for logged in user from database
   knex
     .select('*') // select all records
-    .from('flight') // from 'books' table
-    .where('email', 'efg29@case.edu')
+    .from('flight') // from 'flight' table
+    .where('email', loggedIn)
     .then(userData => {
-      // Send books extracted from database in response
+      // Send flight extracted from database in response
       console.log(userData)
       res.json(userData)
     })
@@ -42,12 +47,11 @@ exports.flightsPersonal = async (req, res) => {
 }
 
 
-// Create new book
+// Create new flight
 exports.flightCreate = async (req, res) => {
-    // Add new book to database
+    // Add new flight to database
     knex('flight')
       .insert({ // insert new record, a flight
-        //'trip_id': req.body.trip_id,
         'email': req.body.email,
         'flighttime': req.body.flighttime,
         'direction': req.body.direction,

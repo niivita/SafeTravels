@@ -16,6 +16,8 @@ router.get('/all', flightRoutes.flightsAll)
 
 router.get('/personal', flightRoutes.flightsPersonal)
 
+router.post('/sendEmail', flightRoutes.flightsRecieveEmail)
+
 // Add route for POST request to create new flight
 // In server.js, flights route is specified as '/flights'
 // this means that '/create' translates to '/flights/create'

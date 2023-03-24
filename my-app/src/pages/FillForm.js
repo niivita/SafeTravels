@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import axios from 'axios'
 import { addDays } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 function FillForm() {
   const [date, setDate] = useState(addDays(new Date(), 2));
@@ -75,9 +76,16 @@ function FillForm() {
                         </label>
                     </div>
                 </div>
-                <button>
-                    <label type="enter" onClick={saveData}>Submit</label>
-                </button>
+                 
+                  <button>
+                      <label type="enter" onClick={saveData}>Submit</label>
+                  </button>
+                  <Link to="/GroupPage"> 
+                     <button> 
+                          View grouping
+                     </button>
+                  </Link>
+                
             </form>
         </div>
   )

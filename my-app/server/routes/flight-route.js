@@ -14,6 +14,8 @@ const router = express.Router()
 // this means that '/all' translates to '/flights/all'
 router.get('/all', flightRoutes.flightsAll)
 
+router.get('/group', flightRoutes.groupAll)
+
 router.get('/personal', flightRoutes.flightsPersonal)
 
 router.post('/sendEmail', flightRoutes.flightsRecieveEmail)

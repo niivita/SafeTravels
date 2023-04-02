@@ -18,9 +18,7 @@ function Home() {
         {!error && isLoading && <p>Loading...</p>}
 
         <Profile />
-        <center><LogoutButton /></center>
-
-        <center><FillFormButton /></center>
+        <center><LogoutButton /><FillFormButton /></center>
 
       </div>
   )

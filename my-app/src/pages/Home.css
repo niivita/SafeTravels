@@ -36,7 +36,18 @@ color: black !important;
 background-color: black !important;
 }
 
+
+.TableTitle {
+  font-size: 24px;
+}
+
 .btn {
-width: 100px;
-float: right;
-} 
+  background-color: black !important;
+  border-style: solid !important;
+  color: white !important;
+  padding: 5px !important;
+  text-align: center !important;
+  width: 120px;
+  display: inline-block !important;
+  font-size: 10px !important;
+}

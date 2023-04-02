@@ -1,0 +1,149 @@
+.dateOFlight{
+    font-family: sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+   
+    border:  #d085ba ;
+  /* border: 1px solid red; */
+  position: center;
+  padding: 30px 40px;
+}
+.box{
+    box-sizing: border-box;
+}
+.bg{
+    /*background-color: #d085ba;
+    position: center;
+    padding: 30px 40px;
+    margin-left: auto;
+    margin-right: auto;*/
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    border-radius: 5px;
+    background-color: #b6ecae; 
+    position: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-top: 100px;
+}
+.bg2 {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 40%;
+    border-radius: 5px;
+    background-color: #b6ecae;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+  }
+.p1{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+
+    position: relative;
+    
+    
+
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    align-items: center;
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    width: 500px;
+  
+    
+    
+
+}
+.p2{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+
+    position: relative;
+    
+    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left:auto;
+   margin-right:auto;
+   width:500px;
+    
+    
+
+}
+.button-style{
+    width: 200px;
+    margin: 0 auto;
+    display: inline;
+}
+.action_btn {
+    width: 200px;
+    margin: 0 auto;
+    display: inline;
+}
+.center{
+    font-family: "Times New Roman", Times, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left:auto;
+   margin-right:auto;
+   width:500px;
+}
+.button-location{
+    align-items: center;
+}
+.form{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   
+    
+    background-color: #d085ba; 
+    position: center;
+
+}
+.the_sticky{
+    position: sticky; 
+}
+.radioButtons1 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .radio input[type="radio"] {
+    appearance: none;
+    border: 2px solid #555;
+    border-radius: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .radio input[type="radio"]:checked {
+    background-color: #555;
+  }
+  
+  .radio label {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  

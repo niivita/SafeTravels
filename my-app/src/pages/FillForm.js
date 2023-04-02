@@ -6,6 +6,9 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import axios from 'axios'
 import { addDays } from 'date-fns';
 import { Link } from 'react-router-dom';
+import './FillForm.css'; 
+//import { TextInput, Tooltip, Center, Text } from '@mantine/core';
+
 
 function FillForm() {
   const [date, setDate] = useState(addDays(new Date(), 2));
@@ -40,27 +43,41 @@ function FillForm() {
   }
 
   return (
-    <div className="auth-form-container">
-            <form action="" id="tripform">
-                <label htmlFor="date">Date of Flight</label>
-                <DatePicker minDate={addDays(new Date(), 2)} selected={date} onChange={(e) => setDate(e)} showTimeSelect timeIntervals={1} dateFormat="MMMM d, yyyy h:mmaa"/>
+    <div> 
+    <div className="auth-form-container " >
+    <div className='bg2'>
+          Grouping Form
+      </div>
 
+      <div className='bg'> 
+            
+            <form action="" id="tripform" class="form-horizontal">
+              <div class="form-group p1" style={{border: "2px solid green"}}  > 
+                <label htmlFor="date"  > Date of Flight  </label>
+                
+                <DatePicker minDate={addDays(new Date(), 2)} selected={date} onChange={(e) => setDate(e)} showTimeSelect timeIntervals={1} dateFormat="MMMM d, yyyy h:mmaa"/>
+              
+                </div>
+                
+                <div className='center p2' > 
                 <label htmlFor="direction">Outgoing or Incoming?</label>
-                <div className="radioButtons1">
-                    <div className="radio">
+                <div className="radioButtons1 "style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                    <div className="radio" style={{display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer'}}>
                         <label>
                             <input value="outgoing" checked={direction === "outgoing"} onChange={handleDirChange} name="direction" type="radio" />
                             Outgoing
                         </label>
                     </div>
-                    <div className="radio">
+                    <div className="radio" style={{display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer'}}>
                         <label>
                             <input value="incoming" checked={direction === "incoming"} onChange={handleDirChange} name="direction" type="radio" />
                             Incoming
                         </label>
                     </div>
                 </div>
-
+                </div>
+                
+                <div className="center p2">
                 <label htmlFor="interOrDom">International or Domestic?</label>
                 <div className="radioButtons2">
                     <div className="radio">
@@ -76,17 +93,28 @@ function FillForm() {
                         </label>
                     </div>
                 </div>
-                 
-                  <button>
-                      <label type="enter" onClick={saveData}>Submit</label>
-                  </button>
-                  <Link to="/GroupPage"> 
-                     <button> 
-                          View grouping
-                     </button>
-                  </Link>
+                </div>
+        <div className="button-location button-style d-flex justify-content-center">
+        <div className="action_btn mr-3">
+          <button type="button" className="btn btn-outline-success" onClick={saveData}>
+            Submit
+           </button>
+       </div>
+  
+      <div className="ml-3">
+         <Link to="/GroupPage">
+             <button type="button" className="btn btn-outline-success">
+                 View Grouping
+              </button>
+         </Link>
+        </div>
+      </div>
+                  
+            
                 
             </form>
+        </div>
+        </div>
         </div>
   )
 }

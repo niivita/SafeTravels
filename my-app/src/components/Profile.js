@@ -3,6 +3,12 @@ import axios from 'axios'
 import React, { useState } from "react";
 import classNames from "classnames";
 import "../pages/Home.css";
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableBody from '@mui/material/TableBody';
 
 function Profile () {
     const { user, isAuthenticated } = useAuth0();
@@ -66,13 +72,112 @@ function Profile () {
         "bkg-light": !background
     })
 
+    const editProfile = () => {
+        
+    }
+
     if (isAuthenticated){
         window.localStorage.setItem("currUser", user.email);
         window.localStorage.setItem("currFlights", getUsersFlights());
     }
 
+    const getDate = (dateTime) => {
+        if (dateTime.length === 0) {
+            return '';
+          }
+        const year = dateTime.substring(0, 4);
+        const month = dateTime.substring(5, 7);
+        const day = dateTime.substring(8, 10);
+        return month + '/' + day + '/' + year;
+    }
+
+    const getTime = (dateTime) => {
+        if (dateTime.length === 0) {
+            return '';
+          }
+        const hours = dateTime.substring(11, 14);
+        const minutes = dateTime.substring(14 ,16);
+        return hours + minutes;
+    }
+
     window.onload = createAccount();
 
+    return (
+        isAuthenticated && (
+            <article className={conditionalStyles}>
+                <hr></hr>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell width="10%">
+                                    <img src={user.picture}/>
+                                </TableCell>
+                                <TableCell width="70%" sx={{fontSize:"25pt"}}>
+                                    {user.name}
+                                </TableCell>
+                                <TableCell align="right" width="20%">
+                                    <TableRow>
+                                        <TableCell>
+                                            <button className="btn" onClick={editProfile}><b>edit profile</b></button>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            <button className="btn" onClick={changeBackground}><b>{background ? "light mode" : "dark mode"}</b></button>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                </TableContainer>
+                <hr></hr>
+                <span className="TableTitle">Your Past Flights:</span>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                                    Date
+                                </TableCell>
+                                <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                                    Time
+                                </TableCell>
+                                <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                                    Direction
+                                </TableCell>
+                                <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                                    Location
+                                </TableCell>
+                                <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                                    Comments
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {listOfItems.map((item) => (
+                                <TableRow 
+                                    key={item[0]}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell align="center">{getDate(item[1])}</TableCell>
+                                    <TableCell align="center">{getTime(item[1])}</TableCell>
+                                    <TableCell align="center">{item[2]}</TableCell>
+                                    <TableCell align="center">{item[3]}</TableCell>
+                                    <TableCell align="center">
+                                        {item[4]}
+                                    <button className="btn">update comments</button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </article>
+        )
+    )
+/*
     return (
         isAuthenticated && (
             <article className={conditionalStyles}>
@@ -95,6 +200,7 @@ function Profile () {
             </article>
         )
     )
+*/
 }
 
 export default Profile

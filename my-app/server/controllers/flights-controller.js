@@ -10,6 +10,7 @@ const knex = require('knex')({
 
 // Retrieve all flights
 exports.flightsAll = async (req, res) => {
+
   // Get all flights from database
   knex
     .select('*') // select all records
@@ -27,17 +28,18 @@ exports.flightsAll = async (req, res) => {
 // saving logged in users email to backend for use in sql queries 
 exports.flightsRecieveEmail = async (req, res) => {
   loggedIn = req.body.email;
+  res.json({ message: `Email saved successfully/` })
 }
 
+// Get flights for logged in user from database
 exports.flightsPersonal = async (req, res) => {
-  // Get flights for logged in user from database
   knex
     .select('*') // select all records
     .from('flight') // from 'flight' table
     .where('email', loggedIn)
     .then(userData => {
       // Send flight extracted from database in response
-      console.log(userData)
+      //console.log(userData)
       res.json(userData)
     })
     .catch(err => {
@@ -68,8 +70,8 @@ exports.flightCreate = async (req, res) => {
       })
   }
 
-  exports.groupAll = async (req, res) => {
-
+  // get group for a submitted flight
+exports.groupAll = async (req, res) => {
     knex('flight')
     .select('email')
     .whereBetween('flighttime', [
@@ -86,4 +88,22 @@ exports.flightCreate = async (req, res) => {
       // Send a error message in response
       res.json({ message: `There was an error retrieving flights: ${err}` })
     })
+}
+
+// update comments for given trip in database
+exports.putNewCommentsInDB = async (req, res) => {
+  knex('flight')
+  .update({
+    comments: req.body.comments
+  })
+  .where({trip_id: req.body.tripID})
+  .then(response => {
+    // Send a success message in response
+    res.json(response.userData);
+    //res.json({ message: `Flight \'${req.query.trip_id}\' updated successfully.` })
+  })
+  .catch(err => {
+    // Send a error message in response
+    res.json({ message: `There was an error updating ${req.query.trip_id} flight: ${err}` })
+  })
 }

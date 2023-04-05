@@ -14,11 +14,17 @@ const router = express.Router()
 // this means that '/all' translates to '/flights/all'
 router.get('/all', flightRoutes.flightsAll)
 
+// route for getting the emails of a users group
 router.get('/group', flightRoutes.groupAll)
 
+// route for getting all flights for the logged in user 
 router.get('/personal', flightRoutes.flightsPersonal)
 
+// route for posting the email of the loggedin user to backend for use in other queries
 router.post('/sendEmail', flightRoutes.flightsRecieveEmail)
+
+// route for posting the new comments for a given trip for the loggedin user into the database
+router.post('/updateComments', flightRoutes.putNewCommentsInDB)
 
 // Add route for POST request to create new flight
 // In server.js, flights route is specified as '/flights'

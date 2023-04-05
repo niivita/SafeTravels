@@ -23,10 +23,10 @@ function Profile () {
 
     const { user, isAuthenticated } = useAuth0();
     let [listOfItems, setListOfItems] = useState([]);                   // holds all of the flights for the loggedin user
-    let [background, setBackground] = useState(false);                  //holds value of background (light or dark)
+    let [background, setBackground] = useState(false);                  // holds value of background (light or dark)
     let [editProfileOpen, setEditProfileOpen] = useState(false);        // determines whether the edit profile card is visible
     let [editCommentsOpen, setEditCommentsOpen] = useState(false);      // determines whether the edit comments card is visible
-    let [currName, setCurrName] = useState("");                         // not currently in use, still implementing
+    let [currName, setCurrName] = useState("");                         // holds displayname for currently loggedin user 
     let [currPicture, setCurrPicture] = useState(1);                    // not currently in use, still implementing
     let [updatedTripID, setUpdatedTripID] = useState("");               // holds the trip id of the trip who's comments are being edited
     let [newComments, setNewComments] = useState("");                   // holds the new comments for 'updatedTripID' 
@@ -39,23 +39,42 @@ function Profile () {
         if (isAuthenticated && start === 0){
                 window.localStorage.setItem("currUser", user.email);
                 window.localStorage.setItem("currFlights", getUsersFlights());
+                sendEmailToLogin();
+                getUsersInfo();
                 setStart(1);
-            }
-        try {
-            const response = await axios.post('http://localhost:4001/login/create', {
-            // Data to be sent to the server
-                email: user.email,
-                name: user.name
-            });
-            } catch (error) {
-            console.error(error);
+            
+            try {
+                const response = await axios.post('http://localhost:4001/login/create', {
+                // Data to be sent to the server
+                    email: user.email,
+                    name: user.name
+                });
+                } catch (error) {
+                console.error(error);
+            }
         }
     }
 
+    // get request to get all loggedin user data 
+    const getUsersInfo = async () => {
+                try {
+                    await axios
+                        .get("http://localhost:4001/login/userInfo", {
+                            responseType: "json",
+                        })
+                        .then(function (response) {
+                            setCurrName(response.data[0].displayname);
+                            setCurrPicture(response.data[0].image);
+                            return response;
+                        });
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+
     // sends post request to update comments for a given trip for the logged in user
     const updateComms = async (e) => {
-        console.log(updatedTripID);
-        console.log(newComments);
         try {
             const response = await axios.post('http://localhost:4001/flights/updateComments', {
             // Data to be sent to the server
@@ -70,8 +89,27 @@ function Profile () {
             }
     }
 
-    // sending email of currently logged in user to backend
-    const sendEmail = async (e) => {
+    // sends post request to update users display name 
+    const updateProfile = async (e) => {
+        console.log(currName);
+        console.log(currPicture);
+        
+        try {
+            const response = await axios.post('http://localhost:4001/login/updateprofile', {
+            // Data to be sent to the server
+                newName: currName
+            })
+            .then(function(response) {
+                console.log(response);
+            });
+            } catch (error) {
+            console.error(error);
+            }
+            
+    }
+
+    // sending email of currently logged in user to fligts backend
+    const sendEmailToFlights = async (e) => {
         try {
             const response = await axios.post('http://localhost:4001/flights/sendEmail', {
             // Data to be sent to the server
@@ -85,9 +123,24 @@ function Profile () {
         }
     }
 
+    // sending email of currently logged in user to fligts backend
+    const sendEmailToLogin = async (e) => {
+        try {
+            const response = await axios.post('http://localhost:4001/login/sendEmail', {
+            // Data to be sent to the server
+                email: user.email
+            })
+            .then(function(response) {
+                console.log(response);
+            });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
     // retrieves all fligts from the database that this user has entered
     const getUsersFlights = async () => {
-        sendEmail();
+        sendEmailToFlights();
         try {
             axios
                 .get("http://localhost:4001/flights/personal", {
@@ -130,19 +183,21 @@ function Profile () {
         setEditProfileOpen(true);
     }
 
-    // sets the edit profile card to invisible
-    const saveProfileEdits = () => {
-        setEditProfileOpen(false);
-    }
-
-    // not currently in use, still implementing
+    // sets displayname on frontend if it was changed
     const newName = (input) => {
         setCurrName(input);
     }
 
     // not currently in use, still implementing
-    const editCurrPicture = (input) => {
+    const newPicture = (input) => {
         setCurrPicture(input);
+    }
+
+    // calls the function that sends the post request to save the displayname into db
+    // sets edit profile card to invisible
+    const saveProfileEditsToDB = async () => {
+        updateProfile();
+        setEditProfileOpen(false);
     }
 
     // saves the id of the trip that 'edit comments' was clicked on
@@ -157,11 +212,12 @@ function Profile () {
         setNewComments(input);
     }
 
-    // called the function that sends the post request to save new comments into db
+    // calls the function that sends the post request to save new comments into db
     // sets edit comments card to invisible 
     const updateCommentsInDB = async () => {
         updateComms();
         setEditCommentsOpen(false);
+        window.location.reload();
     }
 
     // gets the date out of the smallDatTime SQL object and formats it 
@@ -188,6 +244,7 @@ function Profile () {
     // called createAccount() on page load 
     jQuery(createAccount());
 
+
     return (
         isAuthenticated && (
             <article className={conditionalStyles}>
@@ -202,7 +259,7 @@ function Profile () {
                             id="titleInput"
                             variant="outlined"
                             label="Name"
-                            defaultValue={user.name}
+                            defaultValue={currName}
                             onChange={(e) => newName(e.target.value)}
                         />
                         <br />
@@ -211,7 +268,7 @@ function Profile () {
                             row
                             label="Picture"
                             defaultValue={currPicture}
-                            onChange={(e) => editCurrPicture(e.target.value)}
+                            onChange={(e) => newPicture(e.target.value)}
                         >
                             <FormControlLabel value="1" control={<Radio />} label="1" />
                             <FormControlLabel value="2" control={<Radio />} label="2" />
@@ -219,7 +276,7 @@ function Profile () {
                         </RadioGroup>
                     </DialogContent>
                     <DialogActions>
-                        <button onClick={saveProfileEdits}>save</button>
+                        <button onClick={saveProfileEditsToDB}>save</button>
                     </DialogActions>
                 </Dialog>
                 <Dialog open={editCommentsOpen}>
@@ -247,11 +304,20 @@ function Profile () {
                 <TableContainer>
                     <Table>
                         <TableHead>
-                                <TableCell width="10%">
-                                    
+                                <TableCell width="20%">
+                                    <TableRow>
+                                            <TableCell>
+                                                
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell className={conditionalStyles} sx={{fontSize:"10pt"}}>
+                                                {user.name}
+                                            </TableCell>
+                                        </TableRow>
                                 </TableCell>
-                                <TableCell width="70%" sx={{fontSize:"25pt"}}>
-                                    {user.name}
+                                <TableCell width="60%" className={conditionalStyles} sx={{fontSize:"25pt"}}>
+                                        {currName}
                                 </TableCell>
                                 <TableCell align="right" width="20%">
                                     
@@ -274,20 +340,20 @@ function Profile () {
                 <span className="TableTitle">Your Past Flights:</span>
                 <TableContainer>
                     <Table>
-                        <TableHead>
-                            <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                        <TableHead >
+                            <TableCell align="center" width="20%" className={conditionalStyles} sx={{fontSize:"15pt"}}>
                                 Date
                             </TableCell>
-                            <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                            <TableCell align="center" width="20%" className={conditionalStyles} sx={{fontSize:"15pt"}}>
                                 Time
                             </TableCell>
-                            <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                            <TableCell align="center" width="20%" className={conditionalStyles} sx={{fontSize:"15pt"}}>
                                 Direction
                             </TableCell>
-                            <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                            <TableCell align="center" width="20%" className={conditionalStyles} sx={{fontSize:"15pt"}}>
                                 Location
                             </TableCell>
-                            <TableCell align="center" width="20%" sx={{fontSize:"15pt"}}>
+                            <TableCell align="center" width="20%" className={conditionalStyles} sx={{fontSize:"15pt"}}>
                                 Comments
                             </TableCell>
                         </TableHead>
@@ -297,12 +363,13 @@ function Profile () {
                                     key={item[0]}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell align="center">{getDate(item[1])}</TableCell>
-                                    <TableCell align="center">{getTime(item[1])}</TableCell>
-                                    <TableCell align="center">{item[2]}</TableCell>
-                                    <TableCell align="center">{item[3]}</TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center" className={conditionalStyles} sx={{fontSize:"15pt"}}>{getDate(item[1])}</TableCell>
+                                    <TableCell align="center" className={conditionalStyles} >{getTime(item[1])}</TableCell>
+                                    <TableCell align="center" className={conditionalStyles} >{item[2]}</TableCell>
+                                    <TableCell align="center" className={conditionalStyles} >{item[3]}</TableCell>
+                                    <TableCell align="center" className={conditionalStyles} >
                                         {item[4]}
+                                        <br />
                                     <button className="btn" onClick={e => editComments(item[0])}>update comments</button>
                                     </TableCell>
                                 </TableRow>

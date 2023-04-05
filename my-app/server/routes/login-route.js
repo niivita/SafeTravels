@@ -19,5 +19,14 @@ const router = express.Router()
 // this means that '/create' translates to '/login/create'
 router.post('/create', loginRoutes.loginCreate)
 
+// route to get users info from login table 
+router.get('/userInfo', loginRoutes.getUserData)
+
+// route to send email of loggedin user to backend for use in other queries
+router.post('/sendEmail', loginRoutes.recieveEmail)
+
+// route to update the user displayname
+router.post('/updateProfile', loginRoutes.updateLogin)
+
 // Export router
 module.exports = router

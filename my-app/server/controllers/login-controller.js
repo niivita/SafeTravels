@@ -8,6 +8,7 @@ const knex = require('knex')({
     useNullAsDefault: true
   })
   
+  // creates entry in login for new users 
   exports.loginCreate = async (req, res) => {
     knex('login')
       .insert ({
@@ -23,4 +24,45 @@ const knex = require('knex')({
         // Send a error message in response
         res.json({ message: `There was an error creating ${req.body.email} account: ${err}` })
       })
+  }
+
+  // saving logged in users email to backend for use in sql queries 
+  exports.recieveEmail = async (req, res) => {
+    loggedIn = req.body.email;
+    res.json({ message: `Email saved successfully/` })
+  }
+
+  // retrieves all info in login table for logged in user 
+  exports.getUserData = async (req, res) => {
+    knex
+    .select('*')
+    .from('login')
+    .where('email', loggedIn)
+    .then(userData => {
+      // Send flight extracted from database in response
+      //console.log(userData)
+      res.json(userData)
+    })
+    .catch(err => {
+      // Send a error message in response
+      res.json({ message: `There was an error retrieving flights: ${err}` })
+    })
+  }
+
+  // updates displayname for user
+  exports.updateLogin = async (req, res) => {
+    knex('login')
+  .update({
+    displayname: req.body.newName
+  })
+  .where({email: loggedIn})
+  .then(response => {
+    // Send a success message in response
+    res.json(response.userData);
+    //res.json({ message: `Flight \'${req.query.trip_id}\' updated successfully.` })
+  })
+  .catch(err => {
+    // Send a error message in response
+    res.json({ message: `There was an error updating ${req.query.trip_id} flight: ${err}` })
+  })
   }

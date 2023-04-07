@@ -18,20 +18,22 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import jQuery from "jquery";
+import spartie from './images/spartie.jpeg';
+import blankProfile from './images/blankProfile.png';
 
 function Profile () {
 
-    const { user, isAuthenticated } = useAuth0();
+    const { user, isAuthenticated } = useAuth0();
     let [listOfItems, setListOfItems] = useState([]);                   // holds all of the flights for the loggedin user
     let [background, setBackground] = useState(false);                  // holds value of background (light or dark)
     let [editProfileOpen, setEditProfileOpen] = useState(false);        // determines whether the edit profile card is visible
     let [editCommentsOpen, setEditCommentsOpen] = useState(false);      // determines whether the edit comments card is visible
     let [currName, setCurrName] = useState("");                         // holds displayname for currently loggedin user 
-    let [currPicture, setCurrPicture] = useState(1);                    // not currently in use, still implementing
+    let [currPicture, setCurrPicture] = useState("");                    // not currently in use, still implementing
     let [updatedTripID, setUpdatedTripID] = useState("");               // holds the trip id of the trip who's comments are being edited
     let [newComments, setNewComments] = useState("");                   // holds the new comments for 'updatedTripID' 
     let [start, setStart] = useState(0);                                // is used so that the onload function only happens once
-
+    
     // is called when the profile page gets loaded
     // checks who is logged in, creates an entry in login for them if necessary 
     // calls getUsersFlights() to get the logged in users flights on screen
@@ -89,15 +91,33 @@ function Profile () {
             }
     }
 
-    // sends post request to update users display name 
+    // sends post request to update users display name and profile photo
     const updateProfile = async (e) => {
         console.log(currName);
         console.log(currPicture);
+
+        /* doesn't work yet but for picking a file of your own for profile pic
+        const img = document.querySelector('#photo');
+        const picInput = document.querySelector('#picInput');
+        picInput.addEventListener('change', function(){
+            const chosenFile = this.files[0]
+    
+            if (chosenFile) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function(){
+                    //img.setAttribute('src', reader.result);
+                    newPicture(reader.result);
+                });
+                reader.readAsDataURL(chosenFile);
+            }
+        });
+        */
         
         try {
             const response = await axios.post('http://localhost:4001/login/updateprofile', {
             // Data to be sent to the server
-                newName: currName
+                newName: currName,
+                newPicture: currPicture
             })
             .then(function(response) {
                 console.log(response);
@@ -105,7 +125,7 @@ function Profile () {
             } catch (error) {
             console.error(error);
             }
-            
+        
     }
 
     // sending email of currently logged in user to fligts backend
@@ -136,7 +156,7 @@ function Profile () {
             } catch (error) {
                 console.error(error);
             }
-        }
+    }
 
     // retrieves all fligts from the database that this user has entered
     const getUsersFlights = async () => {
@@ -188,7 +208,7 @@ function Profile () {
         setCurrName(input);
     }
 
-    // not currently in use, still implementing
+    // sets profile picture on frontend if it was changed
     const newPicture = (input) => {
         setCurrPicture(input);
     }
@@ -262,6 +282,19 @@ function Profile () {
                             defaultValue={currName}
                             onChange={(e) => newName(e.target.value)}
                         />
+
+                        <br />
+                        New profile picture
+                        <br />
+                        <input 
+                            type="file"
+                            id="picInput"
+                            onChange={(e) => newPicture(e.target.value)}
+                        />
+                        
+                        const picture = document.querySelector("input[type=file]");
+                        newPicture(picture.value);
+
                         <br />
                         <RadioGroup
                             sx={{ width: '280px', margin: '10px' }}
@@ -270,18 +303,21 @@ function Profile () {
                             defaultValue={currPicture}
                             onChange={(e) => newPicture(e.target.value)}
                         >
-                            <FormControlLabel value="1" control={<Radio />} label="1" />
-                            <FormControlLabel value="2" control={<Radio />} label="2" />
-                            <FormControlLabel value="3" control={<Radio />} label="3" />
+                            <FormControlLabel value={user.picture} name="profile-pic" control={<Radio />} label="Default Profile Photo" />
+                            <img src={user.picture} id="photo"/>
+                            <FormControlLabel value={blankProfile} name="profile-pic" control={<Radio />} label="Blank Profile Photo" />
+                            <img src={blankProfile} id="photo"/>
+                            <FormControlLabel value={spartie} name="profile-pic" control={<Radio />} label="Spartie" />
+                            <img src={spartie} id="photo"/>
                         </RadioGroup>
                     </DialogContent>
                     <DialogActions>
-                        <button onClick={saveProfileEditsToDB}>save</button>
+                        <button onClick={saveProfileEditsToDB}>Save</button>
                     </DialogActions>
                 </Dialog>
                 <Dialog open={editCommentsOpen}>
                     <DialogTitle>
-                        Add or Change your notes for this trip.
+                        Add or change your notes for this trip.
                     </DialogTitle>
                     <DialogContent>
                         <TextField
@@ -294,27 +330,32 @@ function Profile () {
                         />
                     </DialogContent>
                     <DialogActions>
-                    <button onClick={(e) => updateCommentsInDB()}>save</button>
+                    <button onClick={(e) => updateCommentsInDB()}>Save</button>
                     </DialogActions>
                 </Dialog>
 
-
-                
                 <hr></hr>
                 <TableContainer>
                     <Table>
                         <TableHead>
                                 <TableCell width="20%">
                                     <TableRow>
-                                            <TableCell>
-                                                
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className={conditionalStyles} sx={{fontSize:"10pt"}}>
-                                                {user.name}
-                                            </TableCell>
-                                        </TableRow>
+                                        <TableCell>
+                                               
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell className={conditionalStyles}>
+                                            <img src={currPicture} id="photo"></img>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell className={conditionalStyles} sx={{fontSize:"10pt"}}>
+                                            {user.name}
+                                        </TableCell>
+                                    </TableRow>
+                                    
+                                    
                                 </TableCell>
                                 <TableCell width="60%" className={conditionalStyles} sx={{fontSize:"25pt"}}>
                                         {currName}

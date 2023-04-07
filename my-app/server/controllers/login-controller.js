@@ -53,7 +53,8 @@ const knex = require('knex')({
   exports.updateLogin = async (req, res) => {
     knex('login')
   .update({
-    displayname: req.body.newName
+    displayname: req.body.newName,
+    image: req.body.newPicture
   })
   .where({email: loggedIn})
   .then(response => {

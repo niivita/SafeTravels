@@ -112,12 +112,23 @@ function Profile () {
             }
         });
         */
+
+        let pic = 0;
+        if (currPicture == "https://lh3.googleusercontent.com/a/AGNmyxZ4iFOsKKTrv6LbviAiAskJeUO_6FD1pHGJnP1Q=s96-c"){
+            pic = 1;
+        }
+        else if (currPicture == "/static/media/spartie.9c71a87e90debe743e35.jpeg"){
+            pic = 3;
+        }
+        else {
+            pic = 2;
+        }
         
         try {
             const response = await axios.post('http://localhost:4001/login/updateprofile', {
             // Data to be sent to the server
                 newName: currName,
-                newPicture: currPicture
+                newPicture: pic
             })
             .then(function(response) {
                 console.log(response);

@@ -7,10 +7,11 @@ import axios from 'axios'
 import { addDays } from 'date-fns';
 import { Link } from 'react-router-dom';
 import './FillForm.css'; 
-import toastr from 'toastr';
-import 'toastr/build/toastr.min.css';
 import HomeButton from '../components/HomeButton';
 //import { TextInput, Tooltip, Center, Text } from '@mantine/core';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+ 
 
 
 function FillForm() {
@@ -30,16 +31,14 @@ function FillForm() {
       flighttime: date,
       direction: direction,
       international: international
+      })
+      .then(function(response) {
+        toast.success('Flight submitted successfully!', {position: toast.POSITION.BOTTOM_CENTER});
       });
     } catch (error) {
       console.error(error);
+      toast.error('Flight not submitted. Please reload the page and try again.', {position: toast.POSITION.BOTTOM_CENTER});
     }
-    toastr.options = {
-      positionClass: 'toast-bottom-full-width',
-      hideDuration: 300,
-      timeOut: 3000,
-    };
-    toastr.success('Flight submitted successfully.');
   }
 
   const handleDirChange = (e) => {
@@ -107,6 +106,7 @@ function FillForm() {
           <button type="button" className="btn btn-outline-success" onClick={saveData}>
             Submit
            </button>
+           <ToastContainer />
        </div>
   
       <div className="ml-3">

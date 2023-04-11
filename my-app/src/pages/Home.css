@@ -52,4 +52,7 @@ background-color: black !important;
   font-size: 10px !important;
 }
 
-
+.profile {
+  width: 200px;
+  height: 200px;
+}

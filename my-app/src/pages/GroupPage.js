@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useState } from "react";
 import axios from 'axios'
 import styled from 'styled-components';
+import HomeButton from '../components/HomeButton';
 
 const ListEmail = styled.div`
   display: flex;
@@ -87,7 +88,7 @@ function GroupPage() {
                     </li>
                 ))}
                 </ul>
-                <img src={user.picture}/>
+                <center><HomeButton /></center>
             </article>
         )
     )

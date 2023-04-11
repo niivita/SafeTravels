@@ -7,6 +7,9 @@ import axios from 'axios'
 import { addDays } from 'date-fns';
 import { Link } from 'react-router-dom';
 import './FillForm.css'; 
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import HomeButton from '../components/HomeButton';
 //import { TextInput, Tooltip, Center, Text } from '@mantine/core';
 
 
@@ -20,7 +23,6 @@ function FillForm() {
   const saveData = async (e) => {
     e.preventDefault();
     var currUser = window.localStorage.getItem("currUser");
-
     try {
       const response = await axios.post('http://localhost:4001/flights/create', {
         // Data to be sent to the server
@@ -32,6 +34,12 @@ function FillForm() {
     } catch (error) {
       console.error(error);
     }
+    toastr.options = {
+      positionClass: 'toast-bottom-full-width',
+      hideDuration: 300,
+      timeOut: 3000,
+    };
+    toastr.success('Flight submitted successfully.');
   }
 
   const handleDirChange = (e) => {
@@ -115,6 +123,7 @@ function FillForm() {
             </form>
         </div>
         </div>
+        <center><HomeButton /></center>
         </div>
   )
 }

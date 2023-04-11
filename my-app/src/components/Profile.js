@@ -44,7 +44,6 @@ function Profile () {
                 sendEmailToLogin();
                 getUsersInfo();
                 setStart(1);
-            
             try {
                 const response = await axios.post('http://localhost:4001/login/create', {
                 // Data to be sent to the server
@@ -66,7 +65,13 @@ function Profile () {
                         })
                         .then(function (response) {
                             setCurrName(response.data[0].displayname);
-                            setCurrPicture(response.data[0].image);
+                            //setCurrPicture(response.data[0].image);
+                            if (response.data[0].image === 1)
+                                setCurrPicture(user.picture);
+                            else if (response.data[0].image === 2)
+                                setCurrPicture(blankProfile);
+                            else 
+                                setCurrPicture(spartie)
                             return response;
                         });
                 }
@@ -284,7 +289,7 @@ function Profile () {
                     <DialogTitle>
                         Edit Profile
                     </DialogTitle>
-                    <DialogContent>
+                    <DialogContent> Display Name
                         <TextField
                             sx={{ margin: '10px', width: '90%' }}
                             id="titleInput"
@@ -295,16 +300,16 @@ function Profile () {
                         />
 
                         <br />
-                        New profile picture
-                        <br />
-                        <input 
+                        Profile picture
+                        
+                        {/*<input 
                             type="file"
                             id="picInput"
                             onChange={(e) => newPicture(e.target.value)}
                         />
                         
-                        const picture = document.querySelector("input[type=file]");
-                        newPicture(picture.value);
+                        {/*const picture = document.querySelector("input[type=file]");
+                        newPicture(picture.value);*/}
 
                         <br />
                         <RadioGroup
@@ -314,12 +319,12 @@ function Profile () {
                             defaultValue={currPicture}
                             onChange={(e) => newPicture(e.target.value)}
                         >
-                            <FormControlLabel value={user.picture} name="profile-pic" control={<Radio />} label="Default Profile Photo" />
-                            <img src={user.picture} id="photo"/>
-                            <FormControlLabel value={blankProfile} name="profile-pic" control={<Radio />} label="Blank Profile Photo" />
-                            <img src={blankProfile} id="photo"/>
-                            <FormControlLabel value={spartie} name="profile-pic" control={<Radio />} label="Spartie" />
-                            <img src={spartie} id="photo"/>
+                            <FormControlLabel  value={user.picture} name="profile-pic" control={<Radio />} label="Default Profile Photo" />
+                            <img className="profile" src={user.picture} id="photo"/>
+                            <FormControlLabel  value={blankProfile} name="profile-pic" control={<Radio />} label="Blank Profile Photo" />
+                            <img className="profile" src={blankProfile} id="photo"/>
+                            <FormControlLabel  value={spartie} name="profile-pic" control={<Radio />} label="Spartie" />
+                            <img className="profile" src={spartie} id="photo"/>
                         </RadioGroup>
                     </DialogContent>
                     <DialogActions>
@@ -357,11 +362,11 @@ function Profile () {
                                     </TableRow>
                                     <TableRow>
                                         <TableCell className={conditionalStyles}>
-                                            <img src={currPicture} id="photo"></img>
+                                            <img className="profile" src={currPicture} id="photo"></img>
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell className={conditionalStyles} sx={{fontSize:"10pt"}}>
+                                        <TableCell align="center" className={conditionalStyles} sx={{fontSize:"10pt"}}>
                                             {user.name}
                                         </TableCell>
                                     </TableRow>

@@ -5,7 +5,8 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: #bbbbbb;
+  background-color: #0e142b;
+  color: #d6d7d7;
   /*background-image: linear-gradient(79deg, #e6edf7, #bed2ed 50%, #ebf6ff);*/
 }
 
@@ -23,13 +24,13 @@
 }
 
 .bkg-dark {
-background-color: #7e7e7e !important;
-color: white !important;
+  background-color: #17244f !important;
+  color: #d6d7d7 !important;
 }
 
 .bkg-light {
-background-color: #bbbbbb !important;
-color: black !important;
+  background-color: #7c9ed9 !important;
+  color: #212630 !important;
 }
 
 .root {

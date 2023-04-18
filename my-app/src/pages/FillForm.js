@@ -50,21 +50,19 @@ function FillForm() {
   }
 
   return (
-    <div> 
+    <div classsName="pageBG"> 
     <div className="auth-form-container " >
     <div className='bg2'>
-          Grouping Form
-      </div>
+          Flight Form
+    </div>
 
       <div className='bg'> 
             
             <form action="" id="tripform" class="form-horizontal">
-              <div class="form-group p1" style={{border: "2px solid green"}}  > 
-                <label htmlFor="date"  > Date of Flight  </label>
-                
+              <div class="form-group p1"> 
+                <label htmlFor="date"  > Date and Time of Flight:  </label>
                 <DatePicker minDate={addDays(new Date(), 2)} selected={date} onChange={(e) => setDate(e)} showTimeSelect timeIntervals={1} dateFormat="MMMM d, yyyy h:mmaa"/>
-              
-                </div>
+              </div>
                 
                 <div className='center p2' > 
                 <label htmlFor="direction">Outgoing or Incoming?</label>
@@ -103,7 +101,7 @@ function FillForm() {
                 </div>
         <div className="button-location button-style d-flex justify-content-center">
         <div className="action_btn mr-3">
-          <button type="button" className="btn btn-outline-success" onClick={saveData}>
+          <button type="button" className="btn" onClick={saveData} style={{marginRight: "2px"}}>
             Submit
            </button>
            <ToastContainer />
@@ -111,10 +109,13 @@ function FillForm() {
   
       <div className="ml-3">
          <Link to="/GroupPage">
-             <button type="button" className="btn btn-outline-success">
+             <button type="button" className="btn" style={{marginLeft: "2px"}}>
                  View Grouping
               </button>
          </Link>
+        </div>
+        
+        <div>
         </div>
       </div>
                   
@@ -123,7 +124,9 @@ function FillForm() {
             </form>
         </div>
         </div>
-        <center><HomeButton /></center>
+        <div style={{backgroundColor: "#7c9ed9"}}>
+          <center><HomeButton /></center>
+        </div>
         </div>
   )
 }

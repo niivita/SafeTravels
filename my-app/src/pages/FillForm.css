@@ -1,3 +1,24 @@
+.auth-form-container{
+  background-color: #7c9ed9;
+}
+
+html {background-color: #7c9ed9}
+
+.button{
+  background-color: #7c9ed9;
+  width: 130px;
+}
+
+.btn{
+  border-radius: 5px;
+    background-color: #212630 !important;
+    color: #d6d7d7; 
+    border: 0px;
+    font-size: small;
+    border: 1px solid #0a0b0f;
+    height: 30px;
+}
+
 .dateOFlight{
     font-family: sans-serif;
     margin-left: auto;
@@ -19,27 +40,28 @@
     margin-right: auto;*/
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 40%;
+    width: 70%;
     border-radius: 5px;
-    background-color: #b6ecae; 
+    background-color: #d6d7d7; 
     position: center;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10px;
-    margin-top: 100px;
+    margin-top: 10px;
+    color: #212630;
 }
 .bg2 {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
-    width: 40%;
+    width: 70%;
     border-radius: 5px;
-    background-color: #b6ecae;
+    background-color: #d6d7d7;
     margin-left: auto;
     margin-right: auto;
     font-family: "Times New Roman", Times, serif;
     font-size: 40px;
     text-align: center;
     font-weight: bold;
+    color: #212630;
   }
 .p1{
     font-family: "Times New Roman", Times, serif;
@@ -56,7 +78,7 @@
     text-align: center;
     margin-left:auto;
     margin-right:auto;
-    width: 500px;
+    width: 100%;
   
     
     
@@ -126,11 +148,12 @@
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
+
   }
   
   .radio input[type="radio"] {
     appearance: none;
-    border: 2px solid #555;
+    border: 2px solid #212630;
     border-radius: 50%;
     width: 1.2rem;
     height: 1.2rem;
@@ -139,7 +162,7 @@
   }
   
   .radio input[type="radio"]:checked {
-    background-color: #555;
+    background-color: #212630;
   }
   
   .radio label {

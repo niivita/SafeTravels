@@ -74,14 +74,14 @@ function GroupPage() {
     return (
         isAuthenticated && (
             <article className="column">
-                <h1> If you don't see the grouping in 30 seconds, refresh the page! </h1>
+                <h1 className="refresh"> If you don't see the grouping in 30 seconds, refresh the page! </h1>
                 <h2>User: {user.name}</h2>
                 <h2>Email: {user.email}</h2>
                 <script type="text/javascript">
                     createAccount();
                     getUsersFlights();
                 </script>
-                <ul>
+                <ul className="list">
                 {listOfItems.map((flight, index) => (
                     <li key={index}>
                         Flight {flight}

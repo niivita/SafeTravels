@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import React from "react";
+import "./Button.css";
 
 const FillFormButton = () => {
     console.log("form fill")
@@ -9,8 +10,8 @@ const FillFormButton = () => {
     return (
         isAuthenticated && (
             <Link to="/FillForm">
-                <button>
-                    Fill Form
+                <button className="btn">
+                    <b>Fill Form</b>
                 </button>
             </Link>
         )

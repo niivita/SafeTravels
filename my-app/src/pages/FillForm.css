@@ -10,8 +10,8 @@ html {background-color: #7c9ed9}
 }
 
 .btn{
-  border-radius: 5px;
-    background-color: #212630 !important;
+    border-radius: 5px;
+    background-color: #283143 !important;
     color: #d6d7d7; 
     border: 0px;
     font-size: small;
@@ -33,11 +33,6 @@ html {background-color: #7c9ed9}
     box-sizing: border-box;
 }
 .bg{
-    /*background-color: #d085ba;
-    position: center;
-    padding: 30px 40px;
-    margin-left: auto;
-    margin-right: auto;*/
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 70%;
@@ -79,9 +74,6 @@ html {background-color: #7c9ed9}
     margin-left:auto;
     margin-right:auto;
     width: 100%;
-  
-    
-    
 
 }
 .p2{
@@ -89,8 +81,6 @@ html {background-color: #7c9ed9}
     font-size: 20px;
 
     position: relative;
-    
-    
 
     display: flex;
     justify-content: center;
@@ -99,20 +89,20 @@ html {background-color: #7c9ed9}
     margin-left:auto;
    margin-right:auto;
    width:500px;
-    
-    
-
 }
+
 .button-style{
     width: 200px;
     margin: 0 auto;
     display: inline;
 }
+
 .action_btn {
     width: 200px;
     margin: 0 auto;
     display: inline;
 }
+
 .center{
     font-family: "Times New Roman", Times, serif;
     display: flex;

@@ -10,8 +10,8 @@ const FillFormButton = () => {
     return (
         isAuthenticated && (
             <Link to="/">
-                <button className='button'>
-                    Back to Profile
+                <button className='btn'>
+                    <b>Back to Profile</b>
                 </button>
             </Link>
         )

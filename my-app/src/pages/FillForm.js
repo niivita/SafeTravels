@@ -13,12 +13,10 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
  
 
-
 function FillForm() {
   const [date, setDate] = useState(addDays(new Date(), 2));
   const [direction, setDir] = useState(false);              // true = outgoing, false = incoming
   const [international, setInter] = useState(false);        // true = international, false = domestic
-
 
   // entering new flight into the database 
   const saveData = async (e) => {
@@ -51,9 +49,11 @@ function FillForm() {
 
   return (
     <div classsName="pageBG"> 
-    <div className="auth-form-container " >
+    <div className="auth-form-container">
+
     <div className='bg2'>
-          Flight Form
+              Flight Form
+              <h4><center>Fill in your flight details to be matched with a group</center></h4>
     </div>
 
       <div className='bg'> 
@@ -102,7 +102,7 @@ function FillForm() {
         <div className="button-location button-style d-flex justify-content-center">
         <div className="action_btn mr-3">
           <button type="button" className="btn" onClick={saveData} style={{marginRight: "2px"}}>
-            Submit
+            <b>Submit</b>
            </button>
            <ToastContainer />
        </div>
@@ -110,7 +110,7 @@ function FillForm() {
       <div className="ml-3">
          <Link to="/GroupPage">
              <button type="button" className="btn" style={{marginLeft: "2px"}}>
-                 View Grouping
+                 <b>View Grouping</b>
               </button>
          </Link>
         </div>
@@ -118,16 +118,17 @@ function FillForm() {
         <div>
         </div>
       </div>
-                  
-            
-                
-            </form>
-        </div>
-        </div>
+    </form>
+    </div>
+      </div>
+      
         <div style={{backgroundColor: "#7c9ed9"}}>
+          <br>
+          </br>
           <center><HomeButton /></center>
         </div>
-        </div>
+      
+      </div>
   )
 }
 

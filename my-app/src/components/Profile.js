@@ -20,6 +20,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import jQuery from "jquery";
 import spartie from './images/spartie.jpeg';
 import blankProfile from './images/blankProfile.png';
+import LogoutButton from "../components/LogoutButton";
+import FillFormButton from '../components/FillFormButton';
+import logo from "./images/SafeTravelsLogo.webp";
+
 
 function Profile () {
 
@@ -209,7 +213,7 @@ function Profile () {
     }
 
     // creates conditional css for light/dark mode 
-    const conditionalStyles = classNames("App", {
+    const conditionalStyles = classNames("App", "Home", {
         "bkg-dark": background,
         "bkg-light": !background
     })
@@ -280,10 +284,12 @@ function Profile () {
     // called createAccount() on page load 
     jQuery(createAccount());
 
-
     return (
+
         isAuthenticated && (
-            <article className={conditionalStyles}>
+            <article className={conditionalStyles} style={{height: "100vh"}}>
+                <img src={logo} width="70" height="70" style={{display: "block", marginLeft: "auto", marginRight: "auto"}}></img>
+                <h1 style={{fontFamily: "Copperplate"}}><center>SafeTravels</center></h1>
 
                 <Dialog open={editProfileOpen}>
                     <DialogTitle>
@@ -300,20 +306,10 @@ function Profile () {
                         />
 
                         <br />
-                        Profile picture
-                        
-                        {/*<input 
-                            type="file"
-                            id="picInput"
-                            onChange={(e) => newPicture(e.target.value)}
-                        />
-                        
-                        {/*const picture = document.querySelector("input[type=file]");
-                        newPicture(picture.value);*/}
-
+                        Select a profile picture:
                         <br />
                         <RadioGroup
-                            sx={{ width: '280px', margin: '10px' }}
+                            sx={{ width: '280px', margin: '20px' }}
                             row
                             label="Picture"
                             defaultValue={currPicture}
@@ -349,7 +345,7 @@ function Profile () {
                     <button onClick={(e) => updateCommentsInDB()}>Save</button>
                     </DialogActions>
                 </Dialog>
-
+                
                 <hr></hr>
                 <TableContainer>
                     <Table>
@@ -366,26 +362,46 @@ function Profile () {
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
+                                        <TableCell align="center" className={conditionalStyles} sx={{fontSize:"15pt"}}>
+                                            {currName}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="center" className={conditionalStyles} sx={{fontSize:"12pt"}}>
+                                            {user.email}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
                                         <TableCell align="center" className={conditionalStyles} sx={{fontSize:"10pt"}}>
-                                            {user.name}
+                                            <LogoutButton />
                                         </TableCell>
                                     </TableRow>
-                                    
-                                    
                                 </TableCell>
-                                <TableCell width="60%" className={conditionalStyles} sx={{fontSize:"25pt"}}>
-                                        {currName}
+                                <TableCell width="60%" className={conditionalStyles} style={{fontSize:"17pt"}}>
+                                        <p1>Need to get to or from the airport and cabs are too expensive?</p1> 
+                                        <br></br>
+                                        <br></br>
+                                        <p1>Fill in your flight details and find a group to carpool with!</p1>
+                                        <br></br>
+                                        <br></br>
+                                        <center><FillFormButton /></center>
+                                        {/* {currName} */}
                                 </TableCell>
+
                                 <TableCell align="right" width="20%">
-                                    
                                     <TableRow>
-                                        <TableCell>
-                                            <button className="btn" onClick={editProfile}><b>edit profile</b></button>
+                                        <TableCell className={conditionalStyles}>
+                                            User Preferences
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>
-                                            <button className="btn" onClick={changeBackground}><b>{background ? "light mode" : "dark mode"}</b></button>
+                                            <button className="btn" onClick={editProfile}><b>Edit Profile</b></button>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            <button className="btn" onClick={changeBackground}><b>{background ? "Light Mode" : "Dark Mode"}</b></button>
                                         </TableCell>
                                     </TableRow>
 
@@ -394,6 +410,7 @@ function Profile () {
                     </Table>
                 </TableContainer>
                 <hr></hr>
+
                 <span className="TableTitle">Your Past Flights:</span>
                 <TableContainer>
                     <Table>
@@ -434,7 +451,11 @@ function Profile () {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+            
+                
             </article>
+
         )
     )
 }

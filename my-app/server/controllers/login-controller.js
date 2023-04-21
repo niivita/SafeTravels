@@ -3,7 +3,7 @@ let loggedIn = "";
 const knex = require('knex')({
     client: 'sqlite3',
     connection: {
-      filename: '../server/db/csds393.db',
+      filename: '../server/db/csdsfinal.db',
     },
     useNullAsDefault: true
   })

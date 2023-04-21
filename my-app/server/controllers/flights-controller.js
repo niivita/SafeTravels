@@ -12,6 +12,8 @@ const knex = require('knex')({
   useNullAsDefault: true
 })
 
+const uuid = require('uuid');
+
 // Retrieve all flights
 exports.flightsAll = async (req, res) => {
 
@@ -78,6 +80,7 @@ direction = req.body.direction;
 
   // get group for a submitted flight
 exports.groupAll = async (req, res) => {
+  const groupId = uuid.v4();
 let hour = parseInt(flightTime.substring(11, 13));
 let startHour = hour - 2;
 let endHour = hour + 2;
@@ -106,7 +109,11 @@ console.log(endTime);
     //.whereNot('email', loggedIn)
     .then(userData => {
       // Send books extracted from database in response
-      res.json(userData)
+      const group = {
+        groupId: String(startTime) + String(endTime) + String(direction),
+        flights: userData
+      };
+      res.json(group); 
       loggedIn = req.body.email;
     })
     .catch(err => {

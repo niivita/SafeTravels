@@ -24,7 +24,9 @@ function GroupPage() {
     
     const { user, isAuthenticated } = useAuth0();
     let [listOfItems, setListOfItems] = useState([]);
+    let [id, setId] = useState([]);
     let [start, setStart] = useState(0);
+    let [groupIds, setGroupIds] = useState(new Set());
     const createAccount = async (e) => {
         try {
             const response = await axios.post('http://localhost:4001/login/create', {
@@ -56,10 +58,29 @@ function GroupPage() {
             })
             .then(function (response) {
                 // formatting all flight information
+                
+                console.log(response); 
+                const groupID = response.data.groupId; 
+                let str= String(groupID); 
+            
+                let strS = str.substring(0,16); 
+                let strE = str.substring(24,40); 
+                let strD = str.substring(48,56); 
+                str = strS+'Z'+strE+'Z'+ strD; 
+
+                const flights = response.data.flights;
+                console.log(groupID); 
+                console.log(flights); 
+
                 let allFlights = new Set(); // Create a Set object to store unique values
-                 for (let i = 0; i < response.data.length; i++){
-                    allFlights.add(response.data[i].email); // Add each unique email to the Set object
+                
+                 for (let i = 0; i < flights.length; i++){
+                    
+                        console.log(allFlights); 
+                         allFlights.add(flights[i].email); // Add each unique email to the Set object
+                    
                   }
+                  setId(str); 
                   setListOfItems(Array.from(allFlights)); // Convert the Set object to an array and update the state
                  return response.data;
         });
@@ -90,6 +111,8 @@ function GroupPage() {
                         {flight}
                     </li>
                 ))}
+                <h1 className="group-id"> This is your group ID- use it to log in to your appropriate group </h1>
+                <li> {id}</li>
                 </ul>
                 <center><HomeButton /></center>
             </article>

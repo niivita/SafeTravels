@@ -35,11 +35,6 @@ io.on('connection', socket => {
             room: user.room,
             users: getRoomUsers(user.room)
         });
-    
-        socket.on('chatMessage', (msg) => {
-            const user = getCurrentUser(socket.id);
-            io.to(user.room).emit('message', formatMessage(user.username, msg));
-          });
 
     });
 
@@ -67,13 +62,8 @@ io.on('connection', socket => {
         const user = getCurrentUser(socket.id);
         io.to(user.room).emit('message', formatMessage(user.username, msg)); //we want to broadcast to everybdoy (including client)
     });
-    
-    socket.on('createRoom', room => {
-        socket.join(room);
-    });
-
 });
 
-const PORT = 3000 || process.env.PORT;
+const PORT = 3001 || process.env.PORT;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 

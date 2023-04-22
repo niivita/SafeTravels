@@ -1,12 +1,18 @@
 let loggedIn = "";
+let flightTime = "";
+let startTime = "";
+let endTime = "";
+let direction = "";
 
 const knex = require('knex')({
   client: 'sqlite3',
   connection: {
-    filename: '../server/db/csds393.db',
+    filename: '../server/db/csdsfinal.db',
   },
   useNullAsDefault: true
 })
+
+const uuid = require('uuid');
 
 // Retrieve all flights
 exports.flightsAll = async (req, res) => {
@@ -51,6 +57,8 @@ exports.flightsPersonal = async (req, res) => {
 
 // Create new flight
 exports.flightCreate = async (req, res) => {
+flightTime = req.body.flighttime;
+direction = req.body.direction;
     // Add new flight to database
     knex('flight')
       .insert({ // insert new record, a flight
@@ -72,16 +80,40 @@ exports.flightCreate = async (req, res) => {
 
   // get group for a submitted flight
 exports.groupAll = async (req, res) => {
+  const groupId = uuid.v4();
+let hour = parseInt(flightTime.substring(11, 13));
+let startHour = hour - 2;
+let endHour = hour + 2;
+if (startHour < 10){
+  startHour = String(startHour);
+  startHour = '0' + startHour;
+}
+else {
+  startHour = String(startHour);
+}
+if (endHour < 10){
+  endHour = String(endHour);
+  endHour = '0' + endHour;
+}
+else {
+  endHour = String(endHour);
+}
+startTime = flightTime.substring(0,11) + startHour + flightTime.substring(13, );
+endTime = flightTime.substring(0,11) + endHour + flightTime.substring(13, );
+console.log(startTime);
+console.log(endTime);
     knex('flight')
     .select('email')
-    .whereBetween('flighttime', [
-      knex.raw("ADDTIME(?,'0 2:0:0.00')", ['*insert flight time*']),
-      knex.raw("ADDTIME(?,'0 -2:0:0.00')", ['*insert flight time*']),
-    ])
-    .where({ '*enter incoming or out going data *': true })
+    .whereBetween('flighttime', [startTime, endTime])
+    .where('direction', direction)
+    //.whereNot('email', loggedIn)
     .then(userData => {
       // Send books extracted from database in response
-      res.json(userData)
+      const group = {
+        groupId: String(startTime) + String(endTime) + String(direction),
+        flights: userData
+      };
+      res.json(group); 
       loggedIn = req.body.email;
     })
     .catch(err => {

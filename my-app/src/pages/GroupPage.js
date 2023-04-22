@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import axios from 'axios'
 import styled from 'styled-components';
 import HomeButton from '../components/HomeButton';
+import jQuery from "jquery";
+
+
+
 
 const ListEmail = styled.div`
   display: flex;
@@ -23,6 +27,9 @@ function GroupPage() {
     
     const { user, isAuthenticated } = useAuth0();
     let [listOfItems, setListOfItems] = useState([]);
+    let [id, setId] = useState([]);
+    let [start, setStart] = useState(0);
+    let [groupIds, setGroupIds] = useState(new Set());
     const createAccount = async (e) => {
         try {
             const response = await axios.post('http://localhost:4001/login/create', {
@@ -49,34 +56,62 @@ function GroupPage() {
        
         sendEmail();
         axios
-            .get("http://localhost:4001/flights/all", {
+            .get("http://localhost:4001/flights/group", {
                 responseType: "json",
             })
             .then(function (response) {
                 // formatting all flight information
-                let allFlights = new Set(); // Create a Set object to store unique values
-                 for (let i = 0; i < response.data.length; i++){
-                    allFlights.add(response.data[i].email); // Add each unique email to the Set object
+                
+                console.log(response); 
+                const groupID = response.data.groupId; 
+                let str= String(groupID); 
+            
+                let strS = str.substring(0,16); 
+                let strE = str.substring(24,40); 
+                let strD = str.substring(48,56); 
+                str = strS+'Z'+strE+'Z'+ strD;
+                const CryptoJS = require("crypto-js");
+
+                function generateHash(input, length) {
+                    const fullHash = CryptoJS.SHA256(input).toString();
+                    return fullHash.substr(0, length);
                   }
+                  
+                const hash = generateHash(str, 5);
+                const flights = response.data.flights;
+                console.log(groupID); 
+                console.log(flights); 
+                
+
+                let allFlights = new Set(); // Create a Set object to store unique values
+                
+                 for (let i = 0; i < flights.length; i++){
+                    
+                        console.log(allFlights); 
+                         allFlights.add(flights[i].email); // Add each unique email to the Set object
+                    
+                  }
+                  setId(hash); 
                   setListOfItems(Array.from(allFlights)); // Convert the Set object to an array and update the state
                  return response.data;
         });
     
     }
 
-    if (isAuthenticated){
+    if (isAuthenticated && start == 0){
+        jQuery(createAccount());
         window.localStorage.setItem("currUser", user.email);
         window.localStorage.setItem("currFlights", getUsersFlights());
+        setStart(1);
     }
 
-    window.onload = createAccount();
+    //window.onload = createAccount();
 
     return (
         isAuthenticated && (
             <article className="column">
                 <h1 className="refresh"> If you don't see the grouping in 30 seconds, refresh the page! </h1>
-                <h2>User: {user.name}</h2>
-                <h2>Email: {user.email}</h2>
+                <h2>Here are the emails of the people travleing around the same time as you. </h2>
                 <script type="text/javascript">
                     createAccount();
                     getUsersFlights();
@@ -84,9 +119,11 @@ function GroupPage() {
                 <ul className="list">
                 {listOfItems.map((flight, index) => (
                     <li key={index}>
-                        Flight {flight}
+                        {flight}
                     </li>
                 ))}
+                <h1 className="group-id"> This is your group ID- use it to log in to your appropriate group </h1>
+                <li> {id}</li>
                 </ul>
                 <center><HomeButton /></center>
             </article>

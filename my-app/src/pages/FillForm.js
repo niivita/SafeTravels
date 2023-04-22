@@ -53,9 +53,8 @@ function FillForm() {
 
     <div className='bg2'>
               Flight Form
-              <h4><center>Fill in your flight details to be matched with a group</center></h4>
-              <h4><center> Enter the time in below options that you think most fitting to your leaving time: </center></h4>
-              <l><center>0:00, 4:00, 8:00, 12:00 for either both am and pm </center></l>
+              <h4><center>Fill in your flight details to be matched with a group:</center></h4>
+
     </div>
 
       <div className='bg'> 

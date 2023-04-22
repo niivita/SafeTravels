@@ -81,12 +81,36 @@ direction = req.body.direction;
   // get group for a submitted flight
 exports.groupAll = async (req, res) => {
   const groupId = uuid.v4();
-let hour = parseInt(flightTime.substring(11, 13));
+let hour = parseInt(flightTime.substring(11, 13)) - 4;
+if (hour <= 0){
+  hour = hour + 24;
+}
+let hour0 = hour - 0;
+let hour4 = hour - 4;
+let hour8 = hour - 8;
+let hour12 = hour - 12;
+let hour16 = hour - 16;
+let hour20 = hour - 20;
+let hour24 = hour - 24;
+
+function getSmallestPositive(hour0, hour4, hour8, hour12, hour16, hour20, hour24) {
+  const hoursArray = [hour0, hour4, hour8, hour12, hour16, hour20, hour24];
+  const positiveHours = hoursArray.filter(hour => hour > 0);
+  console.log(Math.min(...positiveHours), 'tim')
+  return Math.min(...positiveHours);
+  
+}
+let minhour = getSmallestPositive(hour0, hour4, hour8, hour12, hour16, hour20, hour24);
+let leavehour = hour - minhour;
+
+
+
 let startHour = hour - 2;
 let endHour = hour + 2;
 if (startHour < 10){
   startHour = String(startHour);
   startHour = '0' + startHour;
+
 }
 else {
   startHour = String(startHour);
@@ -98,8 +122,8 @@ if (endHour < 10){
 else {
   endHour = String(endHour);
 }
-startTime = flightTime.substring(0,11) + startHour + flightTime.substring(13, );
-endTime = flightTime.substring(0,11) + endHour + flightTime.substring(13, );
+startTime = flightTime.substring(0,11) + leavehour;
+
 console.log(startTime);
 console.log(endTime);
     knex('flight')
@@ -110,7 +134,7 @@ console.log(endTime);
     .then(userData => {
       // Send books extracted from database in response
       const group = {
-        groupId: String(startTime) + String(endTime) + String(direction),
+        groupId: String(startTime) + String(direction),
         flights: userData
       };
       res.json(group); 

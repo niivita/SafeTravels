@@ -23,6 +23,7 @@ import blankProfile from './images/blankProfile.png';
 import LogoutButton from "../components/LogoutButton";
 import FillFormButton from '../components/FillFormButton';
 import logo from "./images/SafeTravelsLogo.webp";
+import ChatroomButton from "./ChatroomButton";
 
 
 function Profile () {
@@ -385,6 +386,8 @@ function Profile () {
                                         <br></br>
                                         <br></br>
                                         <center><FillFormButton /></center>
+                                        <center><ChatroomButton /></center>
+
                                         {/* {currName} */}
                                 </TableCell>
 

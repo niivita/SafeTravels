@@ -122,8 +122,14 @@ if (endHour < 10){
 else {
   endHour = String(endHour);
 }
-startTime = flightTime.substring(0,11) + leavehour;
 
+//2023-04-26T14:18:50.642Z
+//2023-04-26T08
+//2023-04-26T12
+
+startTime = flightTime.substring(0,11) + startHour + flightTime.substring(13);
+endTime = flightTime.substring(0,11) + endHour + flightTime.substring(13);
+console.log(flightTime);
 console.log(startTime);
 console.log(endTime);
     knex('flight')

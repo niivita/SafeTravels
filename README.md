@@ -2,7 +2,7 @@
 Final Project
 
 to run this project:
-1. clone the repo
+1. clone the repo to your desktop
 2. open up 3 windows of terminal or command prompt
 3. in one of them navigate to the my-apps folder and run 'npm i' to install all dependencies and then run 'npm start'
 4. in another window navigate to the groupchat folder and run 'npm i' and then run 'node server.js'

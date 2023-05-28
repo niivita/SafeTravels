@@ -7,7 +7,7 @@ Traveling alone can be stressful, especially when you are taking an Uber, Lyft, 
 
 ## Running this project
 1. Clone the repo to your desktop
-2.Oopen up 3 windows of the terminal or command prompt
+2. Open up 3 windows of the terminal or command prompt
 3. In the first command prompt, navigate to the my-apps folder and run 'npm i' to install all dependencies and then run 'npm start'.
 4. In the second command prompt, navigate to the groupchat folder and run 'npm i' and then run 'node server.js'.
 5. In the last command prompt, navigate to the server folder inside of my-apps and run 'node server.js'.

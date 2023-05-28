@@ -4,6 +4,9 @@ CSDS 393 Final Project
 ## Description
 Traveling alone can be stressful, especially when you are taking an Uber, Lyft, or the RTA alone. This application allows for Case Western Reserve University students to find other students to rideshare with to the CLE Hopkins Airport. Based on the time you would need to fly out, the application will group you with others who also need a ride. Simply fill out a form, and you would be redirected to a page of emails. This application also has a chat-application feature, so you can talk to your group members within the application!
 
+To see a live demo of how this application works, please click on the following link:
+https://drive.google.com/file/d/1kb9-nRqlaY2Y-rp91_Gd_e32-TWSiZrc/view?usp=sharing
+
 
 ## Running this project
 1. Clone the repo to your desktop
